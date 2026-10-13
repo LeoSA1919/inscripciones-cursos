@@ -9,13 +9,13 @@ Entorno: backend en http://localhost:3001, frontend en http://localhost:5173 (No
 |---|---|---|---|
 | Lista vacía | Mensaje de "no hay inscripciones" | Se muestra "Todavía no hay inscripciones registradas." | Sí |
 | Registro válido | Se guarda y muestra confirmación | Se muestra "La inscripción se registró correctamente." y se guarda en el JSON con un UUID | Sí |
-| Formulario vacío | Mensajes de validación, no se envía | | |
-| Email inválido | Se rechaza y explica el error | | |
-| Fecha pasada | Se rechaza y explica el error | | |
+| Formulario vacío | Mensajes de validación, no se envía | Aparece un mensaje bajo cada uno de los 5 campos obligatorios; no se guarda nada | Sí |
+| Email inválido | Se rechaza y explica el error | `ana@correo` se rechaza con "Escribe un correo válido, por ejemplo nombre@correo.com." | Sí |
+| Fecha pasada | Se rechaza y explica el error | `2025-01-15` se rechaza con "La fecha no puede ser anterior a hoy." | Sí |
 | Inscripción adicional | Se conserva la anterior | El JSON queda con las 2 inscripciones; la primera no se borró | Sí |
-| Datos inválidos directo a la API | Responde 400 | | |
-| Consulta en la lista | Muestra los registros guardados | | |
-| Reiniciar backend | Los registros siguen disponibles | | |
+| Datos inválidos directo a la API | Responde 400 | `400 Bad Request` con la lista de 5 errores; no se guarda nada | Sí |
+| Consulta en la lista | Muestra los registros guardados | Muestra "Total: 2" y las 2 tarjetas con todos sus datos; la navegación funciona | Sí |
+| Reiniciar backend | Los registros siguen disponibles | Tras detener y volver a iniciar el backend, `/lista` sigue mostrando las 2 inscripciones con los mismos IDs | Sí |
 
 ## Detalle
 
@@ -65,3 +65,140 @@ un ID generado por el servidor, y la primera inscripción se conserva al agregar
 **Capturas:**
 - [capturas/02-registro-valido.jpg](capturas/02-registro-valido.jpg)
 - [capturas/03-segundo-registro.jpg](capturas/03-segundo-registro.jpg)
+
+### (c) Datos inválidos en cliente y servidor
+
+Antes de estas pruebas `inscripciones.json` tenía 2 registros (los del Paso 4). Al terminar seguía
+teniendo 2, así que ningún dato inválido se guardó.
+
+#### Formulario vacío
+
+**Pasos:** abrir http://localhost:5173/registro y presionar "Registrar inscripción" sin llenar nada.
+
+**Resultado esperado:** mensajes por campo y no se envía nada.
+
+**Resultado obtenido:** cada campo obligatorio queda marcado en rojo con su mensaje:
+- Participante: "Escribe el nombre del participante."
+- Correo electrónico: "Escribe un correo electrónico."
+- Curso: "Escribe el nombre del curso."
+- Categoría: "Escribe la categoría del curso."
+- Fecha: "Elige una fecha."
+
+La descripción (opcional) no muestra error. No aparece aviso del servidor porque la validación del
+cliente detiene el envío antes de hacer la petición.
+
+**¿Pasó?** Sí. **Captura:** [capturas/04-formulario-vacio.jpg](capturas/04-formulario-vacio.jpg)
+
+#### Email inválido
+
+**Pasos:** llenar todos los campos con datos correctos excepto el correo, que se escribe
+`ana@correo`, y enviar.
+
+**Resultado esperado:** se rechaza con un mensaje claro.
+
+**Resultado obtenido:** solo el campo de correo queda marcado, con el mensaje "Escribe un correo
+válido, por ejemplo nombre@correo.com." No se envía al servidor.
+
+**¿Pasó?** Sí. **Captura:** [capturas/05-email-invalido.jpg](capturas/05-email-invalido.jpg)
+
+#### Fecha pasada
+
+**Pasos:** con el correo ya corregido (`ana.perez@correo.com`), poner la fecha `2025-01-15` y enviar.
+
+**Resultado esperado:** se rechaza con un mensaje claro.
+
+**Resultado obtenido:** solo el campo de fecha queda marcado, con el mensaje "La fecha no puede ser
+anterior a hoy." No se envía al servidor.
+
+**¿Pasó?** Sí. **Captura:** [capturas/06-fecha-pasada.jpg](capturas/06-fecha-pasada.jpg)
+
+#### Datos inválidos directo a la API
+
+**Pasos:** enviar la petición sin pasar por el formulario:
+
+```bash
+curl -i -X POST http://localhost:3001/registros \
+  -H "Content-Type: application/json" \
+  -d '{"participante":"","email":"malo","curso":"","fecha":"2020-01-01","categoria":""}'
+```
+
+**Resultado esperado:** código 400 con la lista de errores.
+
+**Resultado obtenido:**
+
+```
+HTTP/1.1 400 Bad Request
+Content-Type: application/json; charset=utf-8
+
+{"mensaje":"Los datos de la inscripción no son válidos.","errores":[
+  "El campo \"participante\" es obligatorio.",
+  "El campo \"curso\" es obligatorio.",
+  "El campo \"categoria\" es obligatorio.",
+  "El campo \"email\" no tiene un formato de correo válido.",
+  "El campo \"fecha\" no puede ser anterior al día actual."]}
+```
+
+**¿Pasó?** Sí. Esto demuestra que el servidor valida por su cuenta aunque alguien se salte el
+formulario.
+
+### (d) Consulta en la lista
+
+**Pasos:**
+1. Con las 2 inscripciones del Paso 4 guardadas, se abrió http://localhost:5173/lista.
+2. Se revisó que cada tarjeta muestre todos los datos.
+3. Se probó la navegación entre páginas con el menú y con los enlaces de cada página.
+
+**Resultado esperado:** se ven todas las inscripciones guardadas con sus datos completos, y la
+navegación permite volver al formulario y a la lista.
+
+**Resultado obtenido:**
+- La página muestra "Total: 2" y una tarjeta por inscripción, con curso, categoría, participante,
+  correo, fecha y descripción:
+  - Introducción a React · Programación · Ana Pérez · ana.perez@correo.com · 2026-10-13 ·
+    Inscripción de prueba 1
+  - Bases de datos · Datos · Luis Gómez · luis.gomez@correo.com · 2026-11-20 ·
+    Inscripción de prueba 2
+- Navegación:
+
+  | Desde | Enlace | Llega a |
+  |---|---|---|
+  | `/lista` | "Registrar una inscripción" | `/registro` |
+  | `/registro` | "Ir a la lista de inscripciones" | `/lista` (2 tarjetas) |
+  | Menú | "Inicio" | `/` (Bienvenido) |
+  | Menú | "Registrar" | `/registro` |
+  | Menú | "Lista" | `/lista` (2 tarjetas) |
+
+  En la página de inicio los enlaces "Registrar inscripción" y "Ver inscripciones" apuntan a
+  `/registro` y `/lista`. El menú marca la página actual en negritas y subrayada.
+
+**¿Pasó?** Sí.
+
+**Observación (no es un fallo de lógica):** en la tarjeta, el correo se corta a mitad de palabra
+cuando no cabe (por ejemplo "ana.perez@correo." / "com"). Se anotará en la revisión de diseño en móvil.
+
+**Captura:** [capturas/07-consulta-lista.jpg](capturas/07-consulta-lista.jpg)
+
+### (e) Persistencia tras reiniciar el backend
+
+**Pasos:**
+1. Con las 2 inscripciones guardadas, se detuvo el backend con Ctrl + C.
+2. Con el backend apagado se recargó `/lista`.
+3. Se volvió a iniciar el backend con `npm start` (mostró
+   `API de inscripciones escuchando en http://localhost:3001`).
+4. Se recargó http://localhost:5173/lista.
+
+**Resultado esperado:** las inscripciones siguen apareciendo después del reinicio.
+
+**Resultado obtenido:**
+- Con el backend apagado, `/lista` muestra el error "No se pudo conectar con el servidor.
+  Verifica que el backend esté iniciado." y el botón "Reintentar". La página no se rompe.
+- Después del reinicio, `/lista` vuelve a mostrar "Total: 2" con las mismas 2 tarjetas.
+  `GET /registros` devuelve los mismos IDs que antes
+  (`0ed19a1c-7151-414b-a4dc-6d5b36f58eeb` y `7d736ac8-5dbb-46a1-bce7-3f007bcd11ca`).
+
+Esto pasa porque las inscripciones no viven en la memoria del servidor: `almacen.js` las escribe en
+`backend/inscripciones.json` y las vuelve a leer de ese archivo en cada consulta.
+
+**¿Pasó?** Sí.
+
+**Captura:** [capturas/08-persistencia-reinicio.jpg](capturas/08-persistencia-reinicio.jpg)
