@@ -6,6 +6,9 @@
 // Campos de texto obligatorios y el nombre con el que se muestran en los mensajes.
 const CAMPOS_REQUERIDOS = ['participante', 'email', 'curso', 'categoria', 'fecha'];
 
+// Categorias permitidas
+const CATEGORIAS = ['Programación', 'Idiomas', 'Diseño', 'Negocios', 'Otros'];
+
 // Formato básico de correo: algo@algo.algo, sin espacios.
 const FORMATO_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -59,6 +62,11 @@ function validarInscripcion(cuerpo) {
   // Email: solo se revisa el formato si el campo vino con contenido.
   if (datos.email && !FORMATO_EMAIL.test(datos.email)) {
     errores.push('El campo "email" no tiene un formato de correo válido.');
+  }
+
+  // Categoria: solo acpta una de las opciones fijas
+  if (datos.categoria && !CATEGORIAS.includes(datos.categoria)) {
+    errores.push('El campo "categoria" debe de ser una de las opciones permitidas.');
   }
 
   // Fecha: formato, que exista en el calendario y que no sea anterior a hoy.
