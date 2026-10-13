@@ -15,7 +15,7 @@ Entorno: backend en http://localhost:3001, frontend en http://localhost:5173 (No
 | Inscripción adicional | Se conserva la anterior | El JSON queda con las 2 inscripciones; la primera no se borró | Sí |
 | Datos inválidos directo a la API | Responde 400 | `400 Bad Request` con la lista de 5 errores; no se guarda nada | Sí |
 | Consulta en la lista | Muestra los registros guardados | Muestra "Total: 2" y las 2 tarjetas con todos sus datos; la navegación funciona | Sí |
-| Reiniciar backend | Los registros siguen disponibles | | |
+| Reiniciar backend | Los registros siguen disponibles | Tras detener y volver a iniciar el backend, `/lista` sigue mostrando las 2 inscripciones con los mismos IDs | Sí |
 
 ## Detalle
 
@@ -177,3 +177,28 @@ navegación permite volver al formulario y a la lista.
 cuando no cabe (por ejemplo "ana.perez@correo." / "com"). Se anotará en la revisión de diseño en móvil.
 
 **Captura:** [capturas/07-consulta-lista.jpg](capturas/07-consulta-lista.jpg)
+
+### (e) Persistencia tras reiniciar el backend
+
+**Pasos:**
+1. Con las 2 inscripciones guardadas, se detuvo el backend con Ctrl + C.
+2. Con el backend apagado se recargó `/lista`.
+3. Se volvió a iniciar el backend con `npm start` (mostró
+   `API de inscripciones escuchando en http://localhost:3001`).
+4. Se recargó http://localhost:5173/lista.
+
+**Resultado esperado:** las inscripciones siguen apareciendo después del reinicio.
+
+**Resultado obtenido:**
+- Con el backend apagado, `/lista` muestra el error "No se pudo conectar con el servidor.
+  Verifica que el backend esté iniciado." y el botón "Reintentar". La página no se rompe.
+- Después del reinicio, `/lista` vuelve a mostrar "Total: 2" con las mismas 2 tarjetas.
+  `GET /registros` devuelve los mismos IDs que antes
+  (`0ed19a1c-7151-414b-a4dc-6d5b36f58eeb` y `7d736ac8-5dbb-46a1-bce7-3f007bcd11ca`).
+
+Esto pasa porque las inscripciones no viven en la memoria del servidor: `almacen.js` las escribe en
+`backend/inscripciones.json` y las vuelve a leer de ese archivo en cada consulta.
+
+**¿Pasó?** Sí.
+
+**Captura:** [capturas/08-persistencia-reinicio.jpg](capturas/08-persistencia-reinicio.jpg)
