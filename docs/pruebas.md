@@ -14,7 +14,7 @@ Entorno: backend en http://localhost:3001, frontend en http://localhost:5173 (No
 | Fecha pasada | Se rechaza y explica el error | `2025-01-15` se rechaza con "La fecha no puede ser anterior a hoy." | Sí |
 | Inscripción adicional | Se conserva la anterior | El JSON queda con las 2 inscripciones; la primera no se borró | Sí |
 | Datos inválidos directo a la API | Responde 400 | `400 Bad Request` con la lista de 5 errores; no se guarda nada | Sí |
-| Consulta en la lista | Muestra los registros guardados | | |
+| Consulta en la lista | Muestra los registros guardados | Muestra "Total: 2" y las 2 tarjetas con todos sus datos; la navegación funciona | Sí |
 | Reiniciar backend | Los registros siguen disponibles | | |
 
 ## Detalle
@@ -140,3 +140,40 @@ Content-Type: application/json; charset=utf-8
 
 **¿Pasó?** Sí. Esto demuestra que el servidor valida por su cuenta aunque alguien se salte el
 formulario.
+
+### (d) Consulta en la lista
+
+**Pasos:**
+1. Con las 2 inscripciones del Paso 4 guardadas, se abrió http://localhost:5173/lista.
+2. Se revisó que cada tarjeta muestre todos los datos.
+3. Se probó la navegación entre páginas con el menú y con los enlaces de cada página.
+
+**Resultado esperado:** se ven todas las inscripciones guardadas con sus datos completos, y la
+navegación permite volver al formulario y a la lista.
+
+**Resultado obtenido:**
+- La página muestra "Total: 2" y una tarjeta por inscripción, con curso, categoría, participante,
+  correo, fecha y descripción:
+  - Introducción a React · Programación · Ana Pérez · ana.perez@correo.com · 2026-10-13 ·
+    Inscripción de prueba 1
+  - Bases de datos · Datos · Luis Gómez · luis.gomez@correo.com · 2026-11-20 ·
+    Inscripción de prueba 2
+- Navegación:
+
+  | Desde | Enlace | Llega a |
+  |---|---|---|
+  | `/lista` | "Registrar una inscripción" | `/registro` |
+  | `/registro` | "Ir a la lista de inscripciones" | `/lista` (2 tarjetas) |
+  | Menú | "Inicio" | `/` (Bienvenido) |
+  | Menú | "Registrar" | `/registro` |
+  | Menú | "Lista" | `/lista` (2 tarjetas) |
+
+  En la página de inicio los enlaces "Registrar inscripción" y "Ver inscripciones" apuntan a
+  `/registro` y `/lista`. El menú marca la página actual en negritas y subrayada.
+
+**¿Pasó?** Sí.
+
+**Observación (no es un fallo de lógica):** en la tarjeta, el correo se corta a mitad de palabra
+cuando no cabe (por ejemplo "ana.perez@correo." / "com"). Se anotará en la revisión de diseño en móvil.
+
+**Captura:** [capturas/07-consulta-lista.jpg](capturas/07-consulta-lista.jpg)
