@@ -5,6 +5,9 @@
 // Formato básico de correo: algo@algo.algo, sin espacios.
 const FORMATO_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Categorias permitidas. Es la misma lista que valida el servidor
+export const CATEGORIAS = ['Programación', 'Idiomas', 'Diseño', 'Negocios', 'Otros'];
+
 // Devuelve la fecha de hoy como YYYY-MM-DD en la hora local del navegador.
 export function fechaDeHoy() {
   const hoy = new Date();
@@ -35,7 +38,9 @@ export function validarFormulario(valores) {
   }
 
   if (valores.categoria.trim() === '') {
-    errores.categoria = 'Escribe la categoría del curso.';
+    errores.categoria = 'Elige una categoría.';
+  } else if (!CATEGORIAS.includes(valores.categoria)){
+    errores.categoria = 'Elige una categoría de la lista.';
   }
 
   // Las fechas YYYY-MM-DD se pueden comparar como texto.

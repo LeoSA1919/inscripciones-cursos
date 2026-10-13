@@ -9,7 +9,7 @@
 //   enviando: true mientras la petición está en curso (desactiva el botón)
 
 import { useState } from 'react';
-import { validarFormulario, fechaDeHoy } from '../validacion.js';
+import { validarFormulario, fechaDeHoy, CATEGORIAS } from '../validacion.js';
 
 // Valores con los que empieza (y a los que vuelve) el formulario.
 const VALORES_INICIALES = {
@@ -104,14 +104,20 @@ export default function FormularioInscripcion({ onEnviar, enviando }) {
 
       <div className="formulario__campo">
         <label htmlFor="categoria">Categoría *</label>
-        <input
+        <select
           id="categoria"
           name="categoria"
-          type="text"
           value={valores.categoria}
           onChange={manejarCambio}
           aria-invalid={Boolean(errores.categoria)}
-        />
+        >
+          <option value="">Elige una categoría</option>
+          {CATEGORIAS.map((categoria)=> (
+              <option key={categoria} value={categoria}>
+                {categoria}
+              </option>
+          ))}
+        </select>
         {errores.categoria && <p className="formulario__error">{errores.categoria}</p>}
       </div>
 

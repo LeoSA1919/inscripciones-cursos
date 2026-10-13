@@ -78,7 +78,7 @@ entorno `PORT`.
 | participante | string | requerido                                        |
 | email        | string | requerido, formato de correo válido              |
 | curso        | string | requerido                                        |
-| categoria    | string | requerido                                        |
+| categoria    | string | requerido, una de: Programación, Idiomas, Diseño, Negocios, Otros |
 | fecha        | string | requerida, `YYYY-MM-DD`, no anterior al día actual |
 | descripcion  | string | opcional                                         |
 
@@ -101,7 +101,7 @@ Respuesta `200`:
     "participante": "Ana Ruiz",
     "email": "ana@correo.com",
     "curso": "React",
-    "categoria": "Frontend",
+    "categoria": "Programación",
     "fecha": "2026-12-01",
     "descripcion": "Turno tarde"
   }
@@ -115,7 +115,7 @@ Crea una inscripción. El servidor valida los datos y genera el `id`.
 ```bash
 curl -X POST http://localhost:3001/registros \
   -H "Content-Type: application/json" \
-  -d '{"participante":"Ana Ruiz","email":"ana@correo.com","curso":"React","categoria":"Frontend","fecha":"2026-12-01","descripcion":"Turno tarde"}'
+  -d '{"participante":"Ana Ruiz","email":"ana@correo.com","curso":"React","categoria":"Programación","fecha":"2026-12-01","descripcion":"Turno tarde"}'
 ```
 
 En PowerShell usa `curl.exe` y escapa las comillas, o prueba desde el
@@ -188,7 +188,7 @@ Con el backend y el frontend iniciados.
    ```bash
    curl -X POST http://localhost:3001/registros \
      -H "Content-Type: application/json" \
-     -d '{"participante":"Ana","email":"malo","curso":"React","categoria":"Frontend","fecha":"2020-01-01"}'
+     -d '{"participante":"Ana","email":"malo","curso":"React","categoria":"Programación","fecha":"2020-01-01"}'
    ```
 
    Esperado: respuesta `400` con la lista de errores.
