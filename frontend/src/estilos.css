@@ -88,15 +88,16 @@ body {
   transition: all 0.2s ease;
 }
 
+/* Solución al texto invisible: Fondo gris claro y letra oscura */
 .menu__enlace:hover {
-  background: #eef1e6; /* Verde pastel muy suave al pasar el mouse */
+  background: #e2e8f0; 
+  color: #1e293b; 
 }
 
-/* Enlace de la página en la que está el usuario */
 .menu__enlace--activo {
   font-weight: bold;
   background: var(--color-primario);
-  color: #ffffff; /* Letra blanca con fondo verde oliva */
+  color: #ffffff;
 }
 
 /* ---------- Botones y enlaces ---------- */
@@ -166,21 +167,26 @@ body {
   gap: 0.25rem;
 }
 
+/* Añadimos la etiqueta 'select' a la lista para que tenga el mismo diseño */
 .formulario__campo input,
-.formulario__campo textarea {
+.formulario__campo textarea,
+.formulario__campo select {
   width: 100%;
   padding: 0.5rem;
   font: inherit;
   border: 1px solid var(--color-borde);
   border-radius: var(--radio);
+  background-color: var(--color-superficie); /* Asegura que el fondo sea blanco */
+  color: var(--color-texto);
 }
 
-/* Resalta el campo cuando el usuario hace clic para escribir */
+/* También añadimos 'select' al efecto plateado al hacer clic */
 .formulario__campo input:focus,
-.formulario__campo textarea:focus {
+.formulario__campo textarea:focus,
+.formulario__campo select:focus {
   outline: none;
-  border-color: #a1a1aa; /* Borde plateado */
-  box-shadow: 0 0 0 3px rgba(161, 161, 170, 0.3); /* Resplandor gris plateado suave */
+  border-color: #a1a1aa;
+  box-shadow: 0 0 0 3px rgba(161, 161, 170, 0.3);
   transition: all 0.2s ease;
 }
 /* Campo con error de validación */
