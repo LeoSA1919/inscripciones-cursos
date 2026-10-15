@@ -2,6 +2,14 @@ const FORMATO_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const CATEGORIAS = ['Programación', 'Idiomas', 'Diseño', 'Negocios', 'Otros'];
 
+export const CURSOS = [
+  'Introducción a la Programación',
+  'Desarrollo Web',
+  'Bases de Datos',
+  'Inglés A1',
+  'Diseño Gráfico',
+];
+
 export function fechaDeHoy() {
   const hoy = new Date();
   const anio = hoy.getFullYear();
@@ -24,7 +32,9 @@ export function validarFormulario(valores) {
   }
 
   if (valores.curso.trim() === '') {
-    errores.curso = 'Escribe el nombre del curso.';
+    errores.curso = 'Elige un curso.';
+  } else if (!CURSOS.includes(valores.curso)) {
+    errores.curso = 'Elige un curso de la lista.';
   }
 
   if (valores.categoria.trim() === '') {

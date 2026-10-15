@@ -66,7 +66,7 @@ export default function Registro() {
       <FormularioInscripcion onEnviar={manejarEnvio} enviando={enviando} />
 
       <div className="acciones">
-        <Link className="enlace" to="/lista">
+        <Link className="boton boton--secundario" to="/lista">
           Ir a la lista de inscripciones
         </Link>
       </div>

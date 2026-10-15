@@ -2,6 +2,14 @@ const CAMPOS_REQUERIDOS = ['participante', 'email', 'curso', 'categoria', 'fecha
 
 const CATEGORIAS = ['Programación', 'Idiomas', 'Diseño', 'Negocios', 'Otros'];
 
+const CURSOS = [
+  'Introducción a la Programación',
+  'Desarrollo Web',
+  'Bases de Datos',
+  'Inglés A1',
+  'Diseño Gráfico',
+];
+
 const FORMATO_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const FORMATO_FECHA = /^\d{4}-\d{2}-\d{2}$/;
@@ -44,6 +52,10 @@ function validarInscripcion(cuerpo) {
 
   if (datos.email && !FORMATO_EMAIL.test(datos.email)) {
     errores.push('El campo "email" no tiene un formato de correo válido.');
+  }
+
+  if (datos.curso && !CURSOS.includes(datos.curso)) {
+    errores.push('El campo "curso" debe ser uno de los cursos permitidos.');
   }
 
   if (datos.categoria && !CATEGORIAS.includes(datos.categoria)) {

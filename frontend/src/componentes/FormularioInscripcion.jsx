@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { validarFormulario, fechaDeHoy, CATEGORIAS } from '../validacion.js';
+import { validarFormulario, fechaDeHoy, CATEGORIAS, CURSOS } from '../validacion.js';
 
 const VALORES_INICIALES = {
   participante: '',
@@ -8,6 +8,15 @@ const VALORES_INICIALES = {
   categoria: '',
   fecha: '',
   descripcion: '',
+};
+
+// Cada curso pertenece a una categoría fija.
+const CATEGORIA_POR_CURSO = {
+  'Introducción a la Programación': 'Programación',
+  'Desarrollo Web': 'Programación',
+  'Bases de Datos': 'Programación',
+  'Inglés A1': 'Idiomas',
+  'Diseño Gráfico': 'Diseño',
 };
 
 export default function FormularioInscripcion({ onEnviar, enviando }) {
@@ -20,6 +29,13 @@ export default function FormularioInscripcion({ onEnviar, enviando }) {
 
     if (errores[name]) {
       setErrores((anteriores) => ({ ...anteriores, [name]: undefined }));
+    }
+
+    // Al elegir un curso, la categoría se completa sola (vacía si no hay curso).
+    if (name === 'curso') {
+      const categoria = CATEGORIA_POR_CURSO[value] || '';
+      setValores((anteriores) => ({ ...anteriores, categoria }));
+      setErrores((anteriores) => ({ ...anteriores, categoria: undefined }));
     }
   }
 
@@ -70,14 +86,20 @@ export default function FormularioInscripcion({ onEnviar, enviando }) {
 
       <div className="formulario__campo">
         <label htmlFor="curso">Curso *</label>
-        <input
+        <select
           id="curso"
           name="curso"
-          type="text"
           value={valores.curso}
           onChange={manejarCambio}
           aria-invalid={Boolean(errores.curso)}
-        />
+        >
+          <option value="">Elige un curso</option>
+          {CURSOS.map((curso) => (
+            <option key={curso} value={curso}>
+              {curso}
+            </option>
+          ))}
+        </select>
         {errores.curso && <p className="formulario__error">{errores.curso}</p>}
       </div>
 
@@ -87,10 +109,10 @@ export default function FormularioInscripcion({ onEnviar, enviando }) {
           id="categoria"
           name="categoria"
           value={valores.categoria}
-          onChange={manejarCambio}
+          disabled
           aria-invalid={Boolean(errores.categoria)}
         >
-          <option value="">Elige una categoría</option>
+          <option value="">Se completa al elegir un curso</option>
           {CATEGORIAS.map((categoria)=> (
               <option key={categoria} value={categoria}>
                 {categoria}
@@ -114,7 +136,7 @@ export default function FormularioInscripcion({ onEnviar, enviando }) {
         {errores.fecha && <p className="formulario__error">{errores.fecha}</p>}
       </div>
 
-      <div className="formulario__campo">
+      <div className="formulario__campo formulario__campo--completo">
         <label htmlFor="descripcion">Descripción (opcional)</label>
         <textarea
           id="descripcion"

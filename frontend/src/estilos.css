@@ -119,15 +119,11 @@ body {
   background: var(--color-superficie);
 }
 
-.enlace {
-  color: var(--color-primario);
-}
-
+/* Formulario en dos columnas; minmax(0, 1fr) evita que un campo ancho desborde su columna. */
 .formulario {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--espacio);
-  max-width: 500px;
   padding: var(--espacio);
   background: var(--color-superficie);
   border: 1px solid var(--color-borde);
@@ -138,6 +134,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
+
+/* Campo que ocupa las dos columnas (la descripción). */
+.formulario__campo--completo {
+  grid-column: 1 / -1;
 }
 
 .formulario__campo input,
@@ -170,8 +171,10 @@ body {
   color: var(--color-error);
 }
 
+/* El botón toma una fila completa, pero queda a la derecha con su tamaño natural. */
 .formulario .boton {
-  align-self: flex-start;
+  grid-column: 1 / -1;
+  justify-self: end;
 }
 
 .mensaje {
@@ -207,7 +210,8 @@ body {
 
 .lista {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  /* Tarjetas más anchas; min(100%, ...) evita desbordes en pantallas angostas. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
   gap: var(--espacio);
 }
 
@@ -216,7 +220,6 @@ body {
   background: var(--color-superficie);
   border: 1px solid var(--color-borde);
   border-radius: var(--radio);
-  overflow-wrap: anywhere;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
@@ -241,12 +244,22 @@ body {
   margin: 0.75rem 0 0;
 }
 
+/* La etiqueta nunca se parte, así la columna de etiquetas queda alineada. */
 .tarjeta__datos dt {
   color: var(--color-texto-suave);
+  white-space: nowrap;
 }
 
+/* Si un valor (como un correo largo) no cabe, se ajusta dentro de su propia columna. */
 .tarjeta__datos dd {
   margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.tarjeta__titulo,
+.tarjeta__descripcion {
+  overflow-wrap: anywhere;
 }
 
 .tarjeta__descripcion {
@@ -259,7 +272,11 @@ body {
     align-items: flex-start;
   }
 
-  .acciones .boton,
+  /* En móvil el formulario vuelve a una sola columna. */
+  .formulario {
+    grid-template-columns: 1fr;
+  }
+
   .formulario .boton {
     width: 100%;
     text-align: center;

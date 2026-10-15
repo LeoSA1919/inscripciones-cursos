@@ -65,7 +65,7 @@ export default function Lista() {
       )}
 
       <div className="acciones">
-        <Link className="enlace" to="/registro">
+        <Link className="boton boton--secundario" to="/registro">
           Registrar una inscripción
         </Link>
       </div>
