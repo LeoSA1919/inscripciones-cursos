@@ -1,7 +1,3 @@
-// Lista.jsx  (ruta "/lista")
-// Consulta las inscripciones con GET y las muestra como tarjetas.
-// Maneja cuatro estados: cargando, error, lista vacía y lista con datos.
-
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import TarjetaInscripcion from '../componentes/TarjetaInscripcion.jsx';
@@ -12,15 +8,9 @@ export default function Lista() {
   const [inscripciones, setInscripciones] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
-  // intento: al cambiar vuelve a ejecutar la consulta (botón "Reintentar").
   const [intento, setIntento] = useState(0);
 
-  // Se ejecuta al entrar a la página y cada vez que cambia "intento".
-  // Como la página consulta al servidor cada vez que se abre, siempre muestra
-  // las inscripciones recién registradas.
   useEffect(() => {
-    // Si el usuario sale de la página antes de que llegue la respuesta,
-    // "vigente" evita actualizar el estado de un componente ya desmontado.
     let vigente = true;
 
     setCargando(true);

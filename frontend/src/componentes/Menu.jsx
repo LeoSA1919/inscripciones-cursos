@@ -1,10 +1,5 @@
-// Menu.jsx
-// Menú de navegación que aparece en todas las páginas.
-// NavLink agrega la clase "activo" al enlace de la ruta actual.
-
 import { NavLink } from 'react-router-dom';
 
-// Devuelve las clases del enlace según si es la ruta actual o no.
 function claseEnlace({ isActive }) {
   return isActive ? 'menu__enlace menu__enlace--activo' : 'menu__enlace';
 }

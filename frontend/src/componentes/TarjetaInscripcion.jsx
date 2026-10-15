@@ -1,11 +1,3 @@
-// TarjetaInscripcion.jsx
-// Muestra los datos de una inscripción. Se usa en la lista y también en la
-// confirmación que aparece después de registrar.
-//
-// Props:
-//   inscripcion: objeto con id, participante, email, curso, categoria, fecha
-//                y descripcion
-
 export default function TarjetaInscripcion({ inscripcion }) {
   const { participante, email, curso, categoria, fecha, descripcion } = inscripcion;
 
@@ -25,7 +17,6 @@ export default function TarjetaInscripcion({ inscripcion }) {
         <dd>{fecha}</dd>
       </dl>
 
-      {/* La descripción es opcional: solo se muestra si tiene contenido. */}
       {descripcion && <p className="tarjeta__descripcion">{descripcion}</p>}
     </article>
   );

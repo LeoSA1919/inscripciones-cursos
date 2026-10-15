@@ -1,7 +1,3 @@
-// rutas/registros.js
-// Define las rutas de la API. Cada ruta recibe la petición, delega la
-// validación y el acceso al archivo en otros módulos, y arma la respuesta.
-
 const express = require('express');
 const crypto = require('crypto');
 const { leerInscripciones, agregarInscripcion } = require('../almacen');
@@ -9,7 +5,6 @@ const { validarInscripcion } = require('../validacion');
 
 const router = express.Router();
 
-// GET /registros -> 200 con el array de inscripciones.
 router.get('/', async (req, res) => {
   try {
     const inscripciones = await leerInscripciones();
@@ -20,9 +15,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /registros -> valida y crea una inscripción.
-//   válido:   201 con el objeto creado
-//   inválido: 400 con un mensaje y la lista de errores
 router.post('/', async (req, res) => {
   const { errores, datos } = validarInscripcion(req.body);
 
@@ -33,7 +25,6 @@ router.post('/', async (req, res) => {
     });
   }
 
-  // El id lo genera siempre el servidor; se ignora cualquier id enviado.
   const nuevaInscripcion = { id: crypto.randomUUID(), ...datos };
 
   try {

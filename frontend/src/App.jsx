@@ -1,7 +1,3 @@
-// App.jsx
-// Estructura general de la SPA: el menú siempre visible y, debajo, la página
-// que corresponde a la ruta actual. Hay exactamente tres rutas.
-
 import { Routes, Route } from 'react-router-dom';
 import Menu from './componentes/Menu.jsx';
 import Inicio from './paginas/Inicio.jsx';

@@ -1,14 +1,7 @@
-// validacion.js
-// Validación del formulario en el cliente. Son las mismas reglas que aplica
-// el servidor; aquí sirven para avisar al usuario antes de enviar.
-
-// Formato básico de correo: algo@algo.algo, sin espacios.
 const FORMATO_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Categorias permitidas. Es la misma lista que valida el servidor
 export const CATEGORIAS = ['Programación', 'Idiomas', 'Diseño', 'Negocios', 'Otros'];
 
-// Devuelve la fecha de hoy como YYYY-MM-DD en la hora local del navegador.
 export function fechaDeHoy() {
   const hoy = new Date();
   const anio = hoy.getFullYear();
@@ -17,9 +10,6 @@ export function fechaDeHoy() {
   return `${anio}-${mes}-${dia}`;
 }
 
-// Recibe los valores del formulario y devuelve un objeto con un mensaje por
-// cada campo inválido, por ejemplo { email: 'Escribe un correo válido...' }.
-// Si el objeto vuelve vacío, el formulario es válido.
 export function validarFormulario(valores) {
   const errores = {};
 
@@ -43,7 +33,6 @@ export function validarFormulario(valores) {
     errores.categoria = 'Elige una categoría de la lista.';
   }
 
-  // Las fechas YYYY-MM-DD se pueden comparar como texto.
   if (valores.fecha === '') {
     errores.fecha = 'Elige una fecha.';
   } else if (valores.fecha < fechaDeHoy()) {

@@ -1,38 +1,24 @@
-/* estilos.css
-   Hoja de estilos única y básica. Está ordenada por componente y cada bloque
-   usa el nombre del componente como prefijo (menu__, formulario__, tarjeta__).
-   Para cambiar la apariencia general basta con editar las variables de :root. */
-
-/* ---------- Variables (colores y medidas) ---------- */
-/* ---------- Variables (colores y medidas) ---------- */
-/* ---------- Variables (colores y medidas) ---------- */
-/* ---------- Variables (colores y medidas) ---------- */
 :root {
-  --color-fondo: #f8fafc; 
+  --color-fondo: #f8fafc;
   --color-superficie: #ffffff;
-  
-  /* Textos oscuros para buena lectura */
-  --color-texto: #1e293b; 
+
+  --color-texto: #1e293b;
   --color-texto-suave: #64748b;
-  
-  /* Bordes en gris claro */
+
   --color-borde: #cbd5e1;
-  
-  /* Color principal: Un azul oscuro, profundo y sin brillo excesivo */
-  --color-primario: #2c3e50; 
-  
-  /* Mensajes de estado */
-  --color-exito: #0f766e; 
+
+  --color-primario: #2c3e50;
+
+  --color-exito: #0f766e;
   --color-exito-fondo: #ccfbf1;
-  --color-error: #b91c1c; 
+  --color-error: #b91c1c;
   --color-error-fondo: #fee2e2;
   --color-info-fondo: #f1f5f9;
 
   --espacio: 1.25rem;
-  --radio: 8px; 
+  --radio: 8px;
   --ancho-maximo: 900px;
 }
-/* ---------- Base ---------- */
 * {
   box-sizing: border-box;
 }
@@ -45,8 +31,6 @@ body {
   background: var(--color-fondo);
 }
 
-/* ---------- Estructura general ---------- */
-/* Zona central donde se muestra cada página */
 .contenido {
   max-width: var(--ancho-maximo);
   margin: 0 auto;
@@ -57,7 +41,6 @@ body {
   margin-top: 0;
 }
 
-/* ---------- Menú ---------- */
 .menu {
   display: flex;
   flex-wrap: wrap;
@@ -88,10 +71,9 @@ body {
   transition: all 0.2s ease;
 }
 
-/* Solución al texto invisible: Fondo gris claro y letra oscura */
 .menu__enlace:hover {
-  background: #e2e8f0; 
-  color: #1e293b; 
+  background: #e2e8f0;
+  color: #1e293b;
 }
 
 .menu__enlace--activo {
@@ -100,8 +82,6 @@ body {
   color: #ffffff;
 }
 
-/* ---------- Botones y enlaces ---------- */
-/* Fila de botones o enlaces de navegación al final de una sección */
 .acciones {
   display: flex;
   flex-wrap: wrap;
@@ -109,7 +89,6 @@ body {
   margin-top: var(--espacio);
 }
 
-/* .boton sirve tanto para <button> como para <Link> */
 .boton {
   display: inline-block;
   padding: 0.6rem 1rem;
@@ -120,17 +99,14 @@ body {
   border-radius: var(--radio);
   text-decoration: none;
   cursor: pointer;
-  /* Nueva línea: hace que los cambios visuales sean suaves */
-  transition: all 0.2s ease-in-out; 
+  transition: all 0.2s ease-in-out;
 }
 
-
-/* Efecto al pasar el mouse o dar clic en el botón */
 .boton:hover:not(:disabled) {
-  background: #a1a1aa; /* Gris plateado */
-  border-color: #a1a1aa; /* Borde gris plateado */
-  transform: translateY(-2px); 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+  background: #a1a1aa;
+  border-color: #a1a1aa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .boton:disabled {
@@ -138,7 +114,6 @@ body {
   cursor: not-allowed;
 }
 
-/* Variante con borde y fondo claro */
 .boton--secundario {
   color: var(--color-primario);
   background: var(--color-superficie);
@@ -148,7 +123,6 @@ body {
   color: var(--color-primario);
 }
 
-/* ---------- Formulario ---------- */
 .formulario {
   display: flex;
   flex-direction: column;
@@ -160,14 +134,12 @@ body {
   border-radius: var(--radio);
 }
 
-/* Cada campo: etiqueta arriba, control debajo y, si aplica, su error */
 .formulario__campo {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-/* Añadimos la etiqueta 'select' a la lista para que tenga el mismo diseño */
 .formulario__campo input,
 .formulario__campo textarea,
 .formulario__campo select {
@@ -176,11 +148,10 @@ body {
   font: inherit;
   border: 1px solid var(--color-borde);
   border-radius: var(--radio);
-  background-color: var(--color-superficie); /* Asegura que el fondo sea blanco */
+  background-color: var(--color-superficie);
   color: var(--color-texto);
 }
 
-/* También añadimos 'select' al efecto plateado al hacer clic */
 .formulario__campo input:focus,
 .formulario__campo textarea:focus,
 .formulario__campo select:focus {
@@ -189,32 +160,28 @@ body {
   box-shadow: 0 0 0 3px rgba(161, 161, 170, 0.3);
   transition: all 0.2s ease;
 }
-/* Campo con error de validación */
 .formulario__campo [aria-invalid='true'] {
   border-color: var(--color-error);
 }
 
-/* Mensaje de error debajo de un campo */
 .formulario__error {
   margin: 0;
   font-size: 0.9rem;
   color: var(--color-error);
 }
 
-/* El botón de enviar no ocupa todo el ancho en pantallas grandes */
 .formulario .boton {
   align-self: flex-start;
 }
 
-/* ---------- Mensajes ---------- */
 .mensaje {
   padding: 0.75rem var(--espacio);
   margin: var(--espacio) 0;
   border: 1px solid var(--color-borde);
-  border-left-width: 6px; /* NUEVO: Borde grueso a la izquierda */
+  border-left-width: 6px;
   border-radius: var(--radio);
   background: var(--color-info-fondo);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* NUEVO: Sombra ligera */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 .mensaje p {
@@ -238,31 +205,25 @@ body {
   border-color: var(--color-error);
 }
 
-/* ---------- Lista de inscripciones ---------- */
-/* Rejilla que acomoda sola las tarjetas: una columna en móvil, más en
-   pantallas anchas */
 .lista {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: var(--espacio);
 }
 
-/* ---------- Tarjeta de inscripción ---------- */
 .tarjeta {
   padding: var(--espacio);
   background: var(--color-superficie);
   border: 1px solid var(--color-borde);
   border-radius: var(--radio);
   overflow-wrap: anywhere;
-  /* Nuevas líneas: sombra estática y transición suave */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-/* NUEVO BLOQUE: Efecto al pasar el mouse por encima de la tarjeta */
 .tarjeta:hover {
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-  transform: translateY(-4px); /* Hace que la tarjeta "flote" hacia arriba */
+  transform: translateY(-4px);
 }
 .tarjeta__titulo {
   margin: 0;
@@ -273,7 +234,6 @@ body {
   color: var(--color-texto-suave);
 }
 
-/* Lista de datos "etiqueta: valor" en dos columnas */
 .tarjeta__datos {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -293,15 +253,12 @@ body {
   margin: 0.75rem 0 0;
 }
 
-/* ---------- Móvil ---------- */
 @media (max-width: 600px) {
-  /* El menú se apila: título arriba y enlaces debajo */
   .menu {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  /* Los botones ocupan todo el ancho para que sean fáciles de tocar */
   .acciones .boton,
   .formulario .boton {
     width: 100%;

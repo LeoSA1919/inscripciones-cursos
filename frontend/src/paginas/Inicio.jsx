@@ -1,6 +1,3 @@
-// Inicio.jsx  (ruta "/")
-// Página de bienvenida con accesos directos al formulario y a la lista.
-
 import { Link } from 'react-router-dom';
 
 export default function Inicio() {
